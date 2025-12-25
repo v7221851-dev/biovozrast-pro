@@ -1,0 +1,15 @@
+# Окружение Python
+venv/
+env/
+.env
+
+# Кэш
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Системные файлы Mac
+.DS_Store
+
+# Файлы настроек Streamlit (если есть)
+.streamlit/
