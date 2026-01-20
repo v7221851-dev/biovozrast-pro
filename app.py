@@ -14,114 +14,248 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CSS стили для улучшения UX
+# CSS стили в стиле Tilda Quiz с цветами сайта (#3B46EE)
 st.markdown("""
 <style>
-    /* Основные стили контейнера */
+    /* Основной контейнер в стиле Tilda Quiz */
     .main-container {
-        max-width: 900px;
+        max-width: 800px;
         margin: 0 auto;
-        padding: 2rem 1.5rem;
+        padding: 3rem 2rem;
+        background: #ffffff;
     }
     
-    /* Улучшенные карточки */
-    .test-card {
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        margin: 1.5rem 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    /* Заголовки */
+    /* Заголовки в стиле Tilda */
     h1 {
         text-align: center;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
+        color: #000000;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
     }
     
     h2, h3 {
-        color: #374151;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        color: #000000;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
     }
     
-    /* Кнопки */
-    .stButton > button {
-        border-radius: 8px;
-        padding: 0.75rem 2rem;
+    /* Описание под заголовком */
+    .quiz-description {
+        text-align: center;
+        color: #666666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 3rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Карточки вопросов в стиле Tilda */
+    .question-card {
+        background: #ffffff;
+        border: 2px solid #f0f0f0;
+        border-radius: 12px;
+        padding: 2.5rem;
+        margin: 2rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .question-card:hover {
+        border-color: #3B46EE;
+        box-shadow: 0 4px 20px rgba(59, 70, 238, 0.1);
+    }
+    
+    /* Варианты ответов (radio buttons) в стиле Tilda */
+    .stRadio > div {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .stRadio > div > label {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        margin: 0.5rem 0;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        color: #000000;
+    }
+    
+    .stRadio > div > label:hover {
+        background: #f0f4ff;
+        border-color: #3B46EE;
+        transform: translateX(5px);
+    }
+    
+    .stRadio > div > label:has(input:checked) {
+        background: #3B46EE;
+        border-color: #3B46EE;
+        color: #ffffff;
         font-weight: 600;
-        transition: all 0.3s;
+    }
+    
+    /* Кнопки в стиле Tilda Quiz */
+    .stButton > button {
+        background-color: #3B46EE;
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        padding: 15px 40px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
     }
     
     .stButton > button:hover {
+        background-color: #2B36CC;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 6px 20px rgba(59, 70, 238, 0.3);
     }
     
-    /* Поля ввода */
+    .stButton > button:focus {
+        box-shadow: 0 0 0 3px rgba(59, 70, 238, 0.2);
+    }
+    
+    /* Кнопка "Назад" */
+    button[kind="secondary"] {
+        background-color: #f8f9fa !important;
+        color: #000000 !important;
+        border: 2px solid #e9ecef !important;
+    }
+    
+    button[kind="secondary"]:hover {
+        background-color: #e9ecef !important;
+        border-color: #3B46EE !important;
+    }
+    
+    /* Поля ввода в стиле Tilda */
     .stTextInput > div > div > input,
     .stNumberInput > div > div > input,
     .stSelectbox > div > div > select {
         border-radius: 8px;
-        border: 2px solid #e5e7eb;
-        padding: 0.75rem;
+        border: 2px solid #e9ecef;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
     }
     
     .stTextInput > div > div > input:focus,
-    .stNumberInput > div > div > input:focus {
-        border-color: #636EFA;
-        box-shadow: 0 0 0 3px rgba(99, 110, 250, 0.1);
+    .stNumberInput > div > div > input:focus,
+    .stSelectbox > div > div > select:focus {
+        border-color: #3B46EE;
+        box-shadow: 0 0 0 3px rgba(59, 70, 238, 0.1);
+        outline: none;
     }
     
     /* Слайдеры */
     .stSlider > div > div {
-        padding: 1rem 0;
+        padding: 1.5rem 0;
     }
     
-    /* Прогресс бар */
+    .stSlider > div > div > div {
+        background: #3B46EE;
+    }
+    
+    /* Прогресс бар в стиле Tilda */
     .stProgress > div > div > div {
-        background: linear-gradient(90deg, #636EFA 0%, #8B5CF6 100%);
+        background: #3B46EE;
         border-radius: 10px;
+        height: 6px;
     }
     
-    /* Метрики */
+    /* Индикатор шага (как в Tilda: "Шаг: 1/4") */
+    .step-indicator {
+        text-align: center;
+        color: #666666;
+        font-size: 0.95rem;
+        margin: 1.5rem 0;
+        font-weight: 500;
+    }
+    
+    .step-indicator strong {
+        color: #3B46EE;
+        font-size: 1.1rem;
+    }
+    
+    /* Навигация внизу (как в Tilda) */
+    .quiz-navigation {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    /* Метрики результатов */
     [data-testid="stMetricValue"] {
-        font-size: 2rem;
+        font-size: 2.5rem;
         font-weight: 700;
+        color: #3B46EE;
     }
     
     /* Отступы для контента */
     .content-section {
-        padding: 1.5rem 0;
+        padding: 2rem 0;
     }
     
-    /* Результаты */
+    /* Результаты с акцентом на цвет сайта */
     .result-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #3B46EE 0%, #5B66F0 100%);
         color: white;
-        padding: 2rem;
+        padding: 3rem;
         border-radius: 16px;
         margin: 2rem 0;
+        box-shadow: 0 8px 30px rgba(59, 70, 238, 0.2);
     }
     
     /* Форма отзывов */
     .feedback-form {
-        background: #f9fafb;
-        padding: 2rem;
+        background: #f8f9fa;
+        padding: 2.5rem;
         border-radius: 12px;
-        border: 2px solid #e5e7eb;
+        border: 2px solid #e9ecef;
         margin: 2rem 0;
+    }
+    
+    /* Информационные блоки */
+    .stInfo {
+        background: #f0f4ff;
+        border-left: 4px solid #3B46EE;
+        border-radius: 8px;
     }
     
     /* Адаптивность */
     @media (max-width: 768px) {
         .main-container {
-            padding: 1rem;
+            padding: 2rem 1rem;
         }
         
-        .test-card {
+        h1 {
+            font-size: 2rem;
+        }
+        
+        .question-card {
             padding: 1.5rem;
+        }
+        
+        .quiz-navigation {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .stButton > button {
+            width: 100%;
         }
     }
     
@@ -129,6 +263,17 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* Дополнительные стили для чистоты */
+    .element-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Улучшение читаемости текста */
+    p {
+        line-height: 1.7;
+        color: #333333;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -369,11 +514,12 @@ def get_result_description(ba_integral, u_age, u_diff, ba_pheno, ba_voitenko):
     
     return main_text, color
 
-# 5. Интерфейс в формате теста с улучшенным UX
+# 5. Интерфейс в формате теста в стиле Tilda Quiz
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
+# Заголовок и описание в стиле Tilda
 st.title("🧬 Интегральный расчет биологического возраста")
-st.markdown('<p style="text-align: center; color: #6b7280; font-size: 1.1rem; margin-bottom: 2rem;">Пройдите тест для определения вашего биологического возраста</p>', unsafe_allow_html=True)
+st.markdown('<div class="quiz-description">Пройдите тест для определения вашего биологического возраста. Получите точную оценку вашего здоровья и общего состояния организма на основе научных методов.</div>', unsafe_allow_html=True)
 
 # Инициализация session state для шагов теста
 if 'test_step' not in st.session_state:
@@ -381,27 +527,20 @@ if 'test_step' not in st.session_state:
 if 'test_data' not in st.session_state:
     st.session_state.test_data = {}
 
-# Функция для отображения прогресса
+# Функция для отображения прогресса в стиле Tilda Quiz
 def show_progress(current_step, total_steps=4):
     progress = current_step / total_steps
     st.progress(progress)
-    steps = ["👤 Профиль", "🩸 Анализ крови", "🏃 Физические тесты", "📊 Результаты"]
-    cols = st.columns(total_steps)
-    for i, (col, step_name) in enumerate(zip(cols, steps)):
-        if i + 1 < current_step:
-            col.markdown(f"✅ **{step_name}**")
-        elif i + 1 == current_step:
-            col.markdown(f"🔄 **{step_name}**")
-        else:
-            col.markdown(f"⏳ {step_name}")
+    # Индикатор шага в стиле Tilda ("Шаг: 1/4")
+    st.markdown(f'<div class="step-indicator">Шаг: <strong>{current_step}/{total_steps}</strong></div>', unsafe_allow_html=True)
 
 # Шаг 1: Профиль
 if st.session_state.test_step == 1:
     show_progress(1)
     st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("### 👤 Шаг 1: Ваш профиль")
-    st.markdown('<p style="color: #6b7280; margin-bottom: 2rem;">Пожалуйста, укажите основную информацию о себе</p>', unsafe_allow_html=True)
+    st.markdown('<div class="question-card">', unsafe_allow_html=True)
+    st.markdown("### 👤 Ваш профиль")
+    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Пожалуйста, укажите основную информацию о себе</p>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
@@ -419,24 +558,28 @@ if st.session_state.test_step == 1:
     st.session_state.test_data['gender'] = u_gender
     st.session_state.test_data['age'] = u_age
     
-    col1, col2, col3 = st.columns([1, 1, 1])
-    with col3:
+    # Навигация в стиле Tilda Quiz
+    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 2])
+    with col2:
         if st.button("Далее →", type="primary", use_container_width=True):
             if u_name and u_name.strip():
                 st.session_state.test_step = 2
                 st.rerun()
             else:
                 st.warning("Пожалуйста, введите ваше имя")
-    
     st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 2: Анализ крови
 elif st.session_state.test_step == 2:
     show_progress(2)
     st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("### 🩸 Шаг 2: Результаты анализа крови")
-    st.markdown('<p style="color: #6b7280; margin-bottom: 2rem;">Введите показатели из вашего последнего анализа крови. Если у вас нет результатов, используйте значения по умолчанию.</p>', unsafe_allow_html=True)
+    st.markdown('<div class="question-card">', unsafe_allow_html=True)
+    st.markdown("### 🩸 Результаты анализа крови")
+    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Введите показатели из вашего последнего анализа крови. Если у вас нет результатов, используйте значения по умолчанию.</p>', unsafe_allow_html=True)
     
     st.markdown("#### 📋 Основные биохимические показатели")
     
@@ -493,25 +636,29 @@ elif st.session_state.test_step == 2:
         'lymph': lymph, 'mcv': mcv, 'rdw': rdw, 'alp': alp, 'wbc': wbc
     })
     
-    col1, col2, col3 = st.columns([1, 1, 1])
+    # Навигация в стиле Tilda Quiz
+    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 2])
     with col1:
         if st.button("← Назад", use_container_width=True):
             st.session_state.test_step = 1
             st.rerun()
-    with col3:
+    with col2:
         if st.button("Далее →", type="primary", use_container_width=True):
             st.session_state.test_step = 3
             st.rerun()
-    
     st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 3: Физические тесты
 elif st.session_state.test_step == 3:
     show_progress(3)
     st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown("---")
-    st.markdown("### 🏃 Шаг 3: Физические тесты")
-    st.markdown('<p style="color: #6b7280; margin-bottom: 2rem;">Выполните простые тесты для оценки функциональных резервов организма</p>', unsafe_allow_html=True)
+    st.markdown('<div class="question-card">', unsafe_allow_html=True)
+    st.markdown("### 🏃 Физические тесты")
+    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Выполните простые тесты для оценки функциональных резервов организма</p>', unsafe_allow_html=True)
     
     st.markdown("#### 💓 Сердечно-сосудистая система")
     st.markdown("**Артериальное давление**")
@@ -551,17 +698,21 @@ elif st.session_state.test_step == 3:
         'sbp': sbp, 'dbp': dbp, 'bht': bht, 'sb': sb, 'bw': bw
     })
     
-    col1, col2, col3 = st.columns([1, 1, 1])
+    # Навигация в стиле Tilda Quiz
+    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 2])
     with col1:
         if st.button("← Назад", use_container_width=True):
             st.session_state.test_step = 2
             st.rerun()
-    with col3:
+    with col2:
         if st.button("📊 Получить результаты", type="primary", use_container_width=True):
             st.session_state.test_step = 4
             st.rerun()
-    
     st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 4: Результаты
 else:
