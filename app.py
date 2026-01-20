@@ -19,7 +19,7 @@ st.markdown("""
 <style>
     /* Основной контейнер в стиле Tilda Quiz */
     .main-container {
-        max-width: 800px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 3rem 2rem;
         background: #ffffff;
@@ -35,13 +35,27 @@ st.markdown("""
         letter-spacing: -0.02em;
     }
     
+    /* Заголовки шагов - главный фокус внимания */
     h2, h3 {
         color: #000000;
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-top: 3rem;
+        margin-bottom: 2rem;
         text-align: center;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+    }
+    
+    /* Дополнительный акцент на заголовках шагов */
+    h2::before, h3::before {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: #3B46EE;
+        margin: 0 auto 1rem;
+        border-radius: 2px;
     }
     
     /* Описание под заголовком */
@@ -56,20 +70,7 @@ st.markdown("""
         margin-right: auto;
     }
     
-    /* Карточки вопросов в стиле Tilda */
-    .question-card {
-        background: #ffffff;
-        border: 2px solid #f0f0f0;
-        border-radius: 12px;
-        padding: 2.5rem;
-        margin: 2rem 0;
-        transition: all 0.3s ease;
-    }
-    
-    .question-card:hover {
-        border-color: #3B46EE;
-        box-shadow: 0 4px 20px rgba(59, 70, 238, 0.1);
-    }
+    /* Убрали карточки вопросов - они создавали лишние блоки */
     
     /* Варианты ответов (radio buttons) в стиле Tilda */
     .stRadio > div {
@@ -204,9 +205,9 @@ st.markdown("""
         color: #3B46EE;
     }
     
-    /* Отступы для контента */
+    /* Отступы для контента - упрощены */
     .content-section {
-        padding: 2rem 0;
+        padding: 1rem 0;
     }
     
     /* Результаты с акцентом на цвет сайта */
@@ -239,14 +240,15 @@ st.markdown("""
     @media (max-width: 768px) {
         .main-container {
             padding: 2rem 1rem;
+            max-width: 100%;
         }
         
         h1 {
             font-size: 2rem;
         }
         
-        .question-card {
-            padding: 1.5rem;
+        h2, h3 {
+            font-size: 1.8rem;
         }
         
         .quiz-navigation {
@@ -537,10 +539,8 @@ def show_progress(current_step, total_steps=4):
 # Шаг 1: Профиль
 if st.session_state.test_step == 1:
     show_progress(1)
-    st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown('<div class="question-card">', unsafe_allow_html=True)
     st.markdown("### 👤 Ваш профиль")
-    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Пожалуйста, укажите основную информацию о себе</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Пожалуйста, укажите основную информацию о себе</p>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
@@ -568,18 +568,13 @@ if st.session_state.test_step == 1:
                 st.rerun()
             else:
                 st.warning("Пожалуйста, введите ваше имя")
-    st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 2: Анализ крови
 elif st.session_state.test_step == 2:
     show_progress(2)
-    st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown('<div class="question-card">', unsafe_allow_html=True)
     st.markdown("### 🩸 Результаты анализа крови")
-    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Введите показатели из вашего последнего анализа крови. Если у вас нет результатов, используйте значения по умолчанию.</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Введите показатели из вашего последнего анализа крови. Если у вас нет результатов, используйте значения по умолчанию.</p>', unsafe_allow_html=True)
     
     st.markdown("#### 📋 Основные биохимические показатели")
     
@@ -647,18 +642,13 @@ elif st.session_state.test_step == 2:
         if st.button("Далее →", type="primary", use_container_width=True):
             st.session_state.test_step = 3
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 3: Физические тесты
 elif st.session_state.test_step == 3:
     show_progress(3)
-    st.markdown('<div class="content-section">', unsafe_allow_html=True)
-    st.markdown('<div class="question-card">', unsafe_allow_html=True)
     st.markdown("### 🏃 Физические тесты")
-    st.markdown('<p style="color: #666666; margin-bottom: 2rem; text-align: center;">Выполните простые тесты для оценки функциональных резервов организма</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Выполните простые тесты для оценки функциональных резервов организма</p>', unsafe_allow_html=True)
     
     st.markdown("#### 💓 Сердечно-сосудистая система")
     st.markdown("**Артериальное давление**")
@@ -709,10 +699,6 @@ elif st.session_state.test_step == 3:
         if st.button("📊 Получить результаты", type="primary", use_container_width=True):
             st.session_state.test_step = 4
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие question-card
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие content-section
 
 # Шаг 4: Результаты
 else:
