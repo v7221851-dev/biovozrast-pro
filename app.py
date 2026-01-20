@@ -568,7 +568,7 @@ if st.session_state.test_step == 1:
                 st.rerun()
             else:
                 st.warning("Пожалуйста, введите ваше имя")
-    
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
 
 # Шаг 2: Анализ крови
 elif st.session_state.test_step == 2:
@@ -642,7 +642,7 @@ elif st.session_state.test_step == 2:
         if st.button("Далее →", type="primary", use_container_width=True):
             st.session_state.test_step = 3
             st.rerun()
-    
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
 
 # Шаг 3: Физические тесты
 elif st.session_state.test_step == 3:
