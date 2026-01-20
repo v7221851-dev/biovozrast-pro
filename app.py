@@ -699,6 +699,7 @@ elif st.session_state.test_step == 3:
         if st.button("📊 Получить результаты", type="primary", use_container_width=True):
             st.session_state.test_step = 4
             st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
 
 # Шаг 4: Результаты
 else:
