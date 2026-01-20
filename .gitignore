@@ -11,5 +11,9 @@ __pycache__/
 # Системные файлы Mac
 .DS_Store
 
-# Файлы настроек Streamlit (если есть)
-.streamlit/
+# Файлы настроек Streamlit (исключаем только secrets)
+.streamlit/secrets.toml
+
+# Логи
+*.log
+streamlit.log
