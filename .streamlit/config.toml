@@ -2,9 +2,21 @@
 headless = true
 enableCORS = false
 enableXsrfProtection = false
+# Оптимизация загрузки
+runOnSave = false
+fileWatcherType = "none"
+port = 8501
 
 [browser]
 gatherUsageStats = false
+serverAddress = "localhost"
+
+[runner]
+fastReruns = true
+magicEnabled = false
+
+[client]
+showErrorDetails = false
 
 [theme]
 primaryColor = "#636EFA"

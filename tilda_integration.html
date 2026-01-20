@@ -24,33 +24,29 @@
   Адаптируется под разные размеры экранов
 -->
 <style>
-.bioage-test-container {
-    width: 100%;
-    height: 900px;
-    border: none;
-    display: block;
-    margin: 0 auto;
-}
-
-@media (max-width: 768px) {
     .bioage-test-container {
-        height: 1200px;
+        width: 100%;
+        height: 900px;
+        border: none;
+        display: block;
+        margin: 0 auto;
     }
-}
 
-@media (max-width: 480px) {
-    .bioage-test-container {
-        height: 1400px;
+    @media (max-width: 768px) {
+        .bioage-test-container {
+            height: 1200px;
+        }
     }
-}
+
+    @media (max-width: 480px) {
+        .bioage-test-container {
+            height: 1400px;
+        }
+    }
 </style>
 
-<iframe 
-    src="https://ваш-проект.streamlit.app/?embed=true" 
-    class="bioage-test-container"
-    allow="geolocation; microphone; camera"
-    title="Тест на биологический возраст"
-    scrolling="auto">
+<iframe src="https://ваш-проект.streamlit.app/?embed=true" class="bioage-test-container"
+    allow="geolocation; microphone; camera" title="Тест на биологический возраст" scrolling="auto">
 </iframe>
 
 <!-- 
