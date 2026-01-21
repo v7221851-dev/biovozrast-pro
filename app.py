@@ -45,6 +45,12 @@ st.markdown("""
         text-align: center;
         letter-spacing: -0.01em;
         line-height: 1.2;
+        scroll-margin-top: 2rem;
+    }
+    
+    /* Плавный скролл */
+    html {
+        scroll-behavior: smooth;
     }
     
     /* Дополнительный акцент на заголовках шагов */
@@ -104,39 +110,167 @@ st.markdown("""
         font-weight: 600;
     }
     
-    /* Кнопки в стиле Tilda Quiz */
+    /* Кнопки в стиле Tilda Quiz - с цветами сайта #3B46EE */
     .stButton > button {
-        background-color: #3B46EE;
-        color: #ffffff;
-        border: none;
-        border-radius: 8px;
-        padding: 15px 40px;
+        background-color: #3B46EE !important;
+        border: 1px solid #3B46EE !important;
+        border-radius: 4px;
+        padding: 15px 30px;
         font-weight: 600;
         font-size: 1rem;
         transition: all 0.3s ease;
         width: 100%;
     }
     
+    /* Принудительно белый текст для всех кнопок primary */
+    .stButton > button,
+    .stButton > button p,
+    .stButton > button div,
+    .stButton > button span {
+        color: #ffffff !important;
+    }
+    
     .stButton > button:hover {
-        background-color: #2B36CC;
+        background-color: #2B36CC !important;
+        border-color: #2B36CC !important;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(59, 70, 238, 0.3);
+    }
+    
+    .stButton > button:hover p,
+    .stButton > button:hover div,
+    .stButton > button:hover span {
+        color: #ffffff !important;
     }
     
     .stButton > button:focus {
         box-shadow: 0 0 0 3px rgba(59, 70, 238, 0.2);
     }
     
-    /* Кнопка "Назад" */
-    button[kind="secondary"] {
-        background-color: #f8f9fa !important;
-        color: #000000 !important;
-        border: 2px solid #e9ecef !important;
+    .stButton > button:focus p,
+    .stButton > button:focus div,
+    .stButton > button:focus span {
+        color: #ffffff !important;
     }
     
-    button[kind="secondary"]:hover {
+    /* Кнопка "Назад" - квадратная как на скриншоте Tilda */
+    button[kind="secondary"],
+    .stButton:has(button:contains("←")) > button {
+        background-color: #f8f9fa !important;
+        border: 1px solid #e9ecef !important;
+        border-radius: 4px;
+        padding: 15px !important;
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    button[kind="secondary"] p,
+    button[kind="secondary"] div,
+    button[kind="secondary"] span,
+    .stButton:has(button:contains("←")) > button p,
+    .stButton:has(button:contains("←")) > button div,
+    .stButton:has(button:contains("←")) > button span {
+        color: #666666 !important;
+    }
+    
+    button[kind="secondary"]:hover,
+    .stButton:has(button:contains("←")) > button:hover {
         background-color: #e9ecef !important;
         border-color: #3B46EE !important;
+    }
+    
+    button[kind="secondary"]:hover p,
+    button[kind="secondary"]:hover div,
+    button[kind="secondary"]:hover span,
+    .stButton:has(button:contains("←")) > button:hover p,
+    .stButton:has(button:contains("←")) > button:hover div,
+    .stButton:has(button:contains("←")) > button:hover span {
+        color: #000000 !important;
+    }
+    
+    /* Альтернативный способ - через data-testid */
+    [data-testid="baseButton-secondary"] {
+        background-color: #f8f9fa !important;
+        border: 1px solid #e9ecef !important;
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+    }
+    
+    /* Центрирование кнопок */
+    .centered-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        width: 100%;
+    }
+    
+    .centered-button .stButton {
+        max-width: 300px;
+        width: auto;
+    }
+    
+    .centered-button .stButton > button {
+        width: auto;
+        min-width: 200px;
+    }
+    
+    /* Навигация с кнопками как на Tilda */
+    .quiz-navigation-with-back {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .quiz-navigation-with-back .stButton:first-child {
+        flex: 0 0 auto;
+        max-width: 50px;
+    }
+    
+    .quiz-navigation-with-back .stButton:first-child > button {
+        width: 50px !important;
+        height: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+        padding: 15px !important;
+        background-color: #f8f9fa !important;
+        border: 1px solid #e9ecef !important;
+    }
+    
+    .quiz-navigation-with-back .stButton:first-child > button p,
+    .quiz-navigation-with-back .stButton:first-child > button div,
+    .quiz-navigation-with-back .stButton:first-child > button span {
+        color: #666666 !important;
+    }
+    
+    .quiz-navigation-with-back .stButton:first-child > button:hover {
+        background-color: #e9ecef !important;
+        border-color: #3B46EE !important;
+    }
+    
+    .quiz-navigation-with-back .stButton:first-child > button:hover p,
+    .quiz-navigation-with-back .stButton:first-child > button:hover div,
+    .quiz-navigation-with-back .stButton:first-child > button:hover span {
+        color: #000000 !important;
+    }
+    
+    .quiz-navigation-with-back .stButton:last-child {
+        flex: 1 1 auto;
+    }
+    
+    /* Скролл к заголовкам */
+    h2, h3 {
+        scroll-margin-top: 2rem;
     }
     
     /* Поля ввода в стиле Tilda */
@@ -190,6 +324,16 @@ st.markdown("""
     
     /* Навигация внизу (как в Tilda) */
     .quiz-navigation {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    /* Навигация с кнопкой назад */
+    .quiz-navigation-with-back {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -345,7 +489,7 @@ def create_pdf(name, gender, age, ba_p, ba_v, combined, diff, markers):
     results = [
         ("Биохимия (PhenoAge)", f"{ba_p} л."),
         ("Тесты (Войтенко)", f"{ba_v} л."),
-        ("ИНТЕГРАЛЬНЫЙ ВОЗРАСТ", f"{combined} л."),
+        ("Биологический возраст", f"{combined} л."),
         ("Разница с паспортом", f"{diff} л.")
     ]
     for l, v in results:
@@ -520,7 +664,7 @@ def get_result_description(ba_integral, u_age, u_diff, ba_pheno, ba_voitenko):
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
 # Заголовок и описание в стиле Tilda
-st.title("🧬 Интегральный расчет биологического возраста")
+st.title("🧬 Биологический возраст")
 st.markdown('<div class="quiz-description">Пройдите тест для определения вашего биологического возраста. Получите точную оценку вашего здоровья и общего состояния организма на основе научных методов.</div>', unsafe_allow_html=True)
 
 # Инициализация session state для шагов теста
@@ -540,7 +684,7 @@ def show_progress(current_step, total_steps=4):
 if st.session_state.test_step == 1:
     show_progress(1)
     st.markdown("### 👤 Ваш профиль")
-    st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Пожалуйста, укажите основную информацию о себе</p>', unsafe_allow_html=True)
+    st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Пожалуйста, укажите базовую информацию о себе</p>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
@@ -558,21 +702,20 @@ if st.session_state.test_step == 1:
     st.session_state.test_data['gender'] = u_gender
     st.session_state.test_data['age'] = u_age
     
-    # Навигация в стиле Tilda Quiz
-    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
-    col1, col2 = st.columns([1, 2])
-    with col2:
-        if st.button("Далее →", type="primary", use_container_width=True):
-            if u_name and u_name.strip():
-                st.session_state.test_step = 2
-                st.rerun()
-            else:
-                st.warning("Пожалуйста, введите ваше имя")
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
+    # Навигация в стиле Tilda Quiz - кнопка по центру
+    st.markdown('<div class="centered-button">', unsafe_allow_html=True)
+    if st.button("Далее →", type="primary", use_container_width=False):
+        if u_name and u_name.strip():
+            st.session_state.test_step = 2
+            st.rerun()
+        else:
+            st.warning("Пожалуйста, введите ваше имя")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Шаг 2: Анализ крови
 elif st.session_state.test_step == 2:
     show_progress(2)
+    st.markdown('<script>setTimeout(() => window.scrollTo({top: 0, behavior: "smooth"}), 100);</script>', unsafe_allow_html=True)
     st.markdown("### 🩸 Результаты анализа крови")
     st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Введите показатели из вашего последнего анализа крови. Если у вас нет результатов, используйте значения по умолчанию.</p>', unsafe_allow_html=True)
     
@@ -631,22 +774,27 @@ elif st.session_state.test_step == 2:
         'lymph': lymph, 'mcv': mcv, 'rdw': rdw, 'alp': alp, 'wbc': wbc
     })
     
-    # Навигация в стиле Tilda Quiz
-    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
-    col1, col2 = st.columns([1, 2])
+    # Навигация в стиле Tilda Quiz - с кнопкой назад
+    st.markdown('<div class="quiz-navigation-with-back">', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 3])
     with col1:
-        if st.button("← Назад", use_container_width=True):
+        if st.button("←", key="back_step2"):
             st.session_state.test_step = 1
             st.rerun()
     with col2:
         if st.button("Далее →", type="primary", use_container_width=True):
             st.session_state.test_step = 3
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
+    st.markdown('</div>', unsafe_allow_html=True)
+    # Скролл к заголовку следующего шага
+    if st.session_state.test_step == 3:
+        st.markdown('<script>setTimeout(() => window.scrollTo({top: 0, behavior: "smooth"}), 100);</script>', unsafe_allow_html=True)
 
 # Шаг 3: Физические тесты
 elif st.session_state.test_step == 3:
     show_progress(3)
+    # Скролл к заголовку при переходе
+    st.markdown('<script>setTimeout(() => window.scrollTo({top: 0, behavior: "smooth"}), 100);</script>', unsafe_allow_html=True)
     st.markdown("### 🏃 Физические тесты")
     st.markdown('<p style="color: #666666; margin-bottom: 2.5rem; text-align: center; font-size: 1.1rem;">Выполните простые тесты для оценки функциональных резервов организма</p>', unsafe_allow_html=True)
     
@@ -688,18 +836,20 @@ elif st.session_state.test_step == 3:
         'sbp': sbp, 'dbp': dbp, 'bht': bht, 'sb': sb, 'bw': bw
     })
     
-    # Навигация в стиле Tilda Quiz
-    st.markdown('<div class="quiz-navigation">', unsafe_allow_html=True)
-    col1, col2 = st.columns([1, 2])
+    # Навигация в стиле Tilda Quiz - с кнопкой назад
+    st.markdown('<div class="quiz-navigation-with-back">', unsafe_allow_html=True)
+    col1, col2 = st.columns([1, 3])
     with col1:
-        if st.button("← Назад", use_container_width=True):
+        if st.button("←", key="back_step3"):
             st.session_state.test_step = 2
             st.rerun()
     with col2:
         if st.button("📊 Получить результаты", type="primary", use_container_width=True):
             st.session_state.test_step = 4
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)  # Закрытие quiz-navigation
+    st.markdown('</div>', unsafe_allow_html=True)
+    # Скролл к заголовку следующего шага
+    st.markdown('<script>window.scrollTo({top: 0, behavior: "smooth"});</script>', unsafe_allow_html=True)
 
 # Шаг 4: Результаты
 else:
@@ -727,57 +877,36 @@ else:
 
 # 6. Основная область: Расчеты и Визуализация (только для шага 4)
 if st.session_state.test_step == 4:
+    st.markdown('<script>setTimeout(() => window.scrollTo({top: 0, behavior: "smooth"}), 100);</script>', unsafe_allow_html=True)
     st.markdown('<div class="content-section">', unsafe_allow_html=True)
     
     st.markdown("### 📊 Ваши результаты")
-    st.markdown(f'<p style="font-size: 1.1rem; color: #374151; margin-bottom: 2rem;">**{u_name}**, вот результаты анализа вашего биологического возраста:</p>', unsafe_allow_html=True)
-    
-    ba_pheno = calculate_phenoage(u_age, alb, creat, gluc, crp, lymph, mcv, rdw, alp, wbc)
-    ba_voitenko = calculate_voitenko(u_gender, sbp, dbp, bht, sb, bw)
 
-    if ba_pheno and ba_voitenko:
-        # Интегральный возраст — среднее двух моделей
-        ba_integral = round((ba_pheno + ba_voitenko) / 2, 2)
-        u_diff = round(ba_integral - u_age, 1)
+ba_pheno = calculate_phenoage(u_age, alb, creat, gluc, crp, lymph, mcv, rdw, alp, wbc)
+ba_voitenko = calculate_voitenko(u_gender, sbp, dbp, bht, sb, bw)
 
-        # Метрики с улучшенным дизайном
-        st.markdown("#### 📈 Показатели биологического возраста")
-        m1, m2, m3 = st.columns(3)
-        with m1:
-            st.markdown('<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; color: white; text-align: center;">', unsafe_allow_html=True)
-            st.metric("PhenoAge", f"{ba_pheno} лет", help="Оценка на основе биохимических маркеров")
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with m2:
-            st.markdown('<div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 1.5rem; border-radius: 12px; color: white; text-align: center;">', unsafe_allow_html=True)
-            st.metric("Войтенко", f"{ba_voitenko} лет", help="Оценка на основе функциональных тестов")
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with m3:
-            st.markdown('<div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 1.5rem; border-radius: 12px; color: white; text-align: center;">', unsafe_allow_html=True)
-            st.metric("Интегральный", f"{ba_integral} лет", delta=f"{u_diff} л.", delta_color="inverse", help="Среднее значение двух методов")
-            st.markdown('</div>', unsafe_allow_html=True)
+if ba_pheno and ba_voitenko:
+    # Интегральный возраст — среднее двух моделей
+    ba_integral = round((ba_pheno + ba_voitenko) / 2, 2)
+    u_diff = round(ba_integral - u_age, 1)
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # Главный график
-        st.markdown("#### 🎯 Визуализация результатов")
-        fig = go.Figure(go.Indicator(
-            mode = "gauge+number",
-            value = ba_integral,
-            title = {'text': f"Ваш интегральный возраст: {ba_integral} лет", 'font': {'size': 24}},
-            gauge = {
-                'axis': {'range': [None, 100], 'tickwidth': 1},
-                'bar': {'color': "#636EFA"},
+        # Спидометр (gauge chart)
+    fig = go.Figure(go.Indicator(
+        mode = "gauge+number",
+        value = ba_integral,
+            title = {'text': f"Ваш интегральный возраст: {ba_integral} лет", 'font': {'size': 28}},
+        gauge = {
+            'axis': {'range': [None, 100], 'tickwidth': 1},
+                'bar': {'color': "#3B46EE"},
                 'steps': [
                     {'range': [0, u_age], 'color': "lightgray"},
                     {'range': [u_age, 100], 'color': "gray"}
                 ],
-                'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': u_age}
-            }
-        ))
-        fig.update_layout(height=400, margin=dict(l=20, r=20, t=40, b=20))
-        st.plotly_chart(fig, use_container_width=True)
+            'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': u_age}
+        }
+    ))
+        fig.update_layout(height=500, margin=dict(l=20, r=20, t=60, b=20))
+    st.plotly_chart(fig, use_container_width=True)
 
         # Подробное описание результатов
         st.markdown("---")
@@ -789,31 +918,31 @@ if st.session_state.test_step == 4:
             st.markdown(f'<div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 2rem; border-radius: 8px; margin: 1rem 0;">{description_text}</div>', unsafe_allow_html=True)
         elif color_type == "info":
             st.markdown(f'<div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 2rem; border-radius: 8px; margin: 1rem 0;">{description_text}</div>', unsafe_allow_html=True)
-        else:
+    else:
             st.markdown(f'<div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 2rem; border-radius: 8px; margin: 1rem 0;">{description_text}</div>', unsafe_allow_html=True)
 
         # Детальная информация
-        with st.expander("📋 Детальная информация о методах оценки"):
+        with st.expander("📋 Детальная информация о методах алгоритма оценки"):
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("**PhenoAge (Yale University)**")
                 st.write(f"- Оценка: {ba_pheno} лет")
                 st.write(f"- Разница с паспортом: {round(ba_pheno - u_age, 1)} лет")
-                st.write("Этот метод анализирует 9 маркеров крови для оценки риска смертности и темпов старения на клеточном уровне.")
+                st.write("Метод PhenoAge анализирует 9 маркеров крови для темпов старения на клеточном уровне.")
             with col2:
                 st.markdown("**Метод Войтенко (НИИ Геронтологии)**")
                 st.write(f"- Оценка: {ba_voitenko} лет")
                 st.write(f"- Разница с паспортом: {round(ba_voitenko - u_age, 1)} лет")
-                st.write("Этот метод оценивает функциональные резервы сердечно-сосудистой системы и вестибулярного аппарата.")
+                st.write("Метод Войтенко оценивает функциональные резервы сердечно-сосудистой системы и вестибулярного аппарата.")
 
-        # PDF Кнопка
+    # PDF Кнопка
         st.markdown("---")
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
             if st.button("📄 Сформировать PDF отчет", type="primary", use_container_width=True):
-                m_list = {"СРБ": crp, "Глюкоза": gluc, "Давление": f"{sbp}/{dbp}", "Баланс": f"{sb} сек"}
-                pdf_out = create_pdf(u_name, u_gender, u_age, ba_pheno, ba_voitenko, ba_integral, u_diff, m_list)
-                if pdf_out:
+        m_list = {"СРБ": crp, "Глюкоза": gluc, "Давление": f"{sbp}/{dbp}", "Баланс": f"{sb} сек"}
+        pdf_out = create_pdf(u_name, u_gender, u_age, ba_pheno, ba_voitenko, ba_integral, u_diff, m_list)
+        if pdf_out:
                     st.download_button("💾 Скачать отчет", data=bytes(pdf_out), 
                                      file_name=f"Integral_Age_{u_name}.pdf",
                                      use_container_width=True)
@@ -862,21 +991,21 @@ if st.session_state.test_step < 4:
     st.markdown("### 🔬 О методологии")
     st.write("""
     Данная модель объединяет два фундаментальных подхода к оценке биологического возраста:
-    1. **PhenoAge (Yale University):** Оценивает риск смертности и темпы старения на клеточном уровне через 9 маркеров крови.
+    1. **PhenoAge (Йельский Университет):** Оценивает риск смертности и темпы старения на клеточном уровне через 9 маркеров крови.
     2. **Метод Войтенко (НИИ Геронтологии):** Проверенная временем система оценки функциональных резервов сердечно-сосудистой системы и вестибулярного аппарата.
     
     **Интегральный показатель** считается более устойчивым к краткосрочным колебаниям состояния организма.
     """)
 elif st.session_state.test_step == 4:
-    st.divider()
-    st.markdown("### 🔬 О методологии синтеза")
-    st.write("""
-    Данная модель объединяет два фундаментальных подхода к долголетию:
-    1. **PhenoAge (Yale University):** Оценивает риск смертности и темпы старения на клеточном уровне через 9 маркеров крови.
-    2. **Метод Войтенко (НИИ Геронтологии):** Проверенная временем советская система оценки функциональных резервов сердечно-сосудистой системы и вестибулярного аппарата.
+st.divider()
+st.markdown("### 🔬 О методологии синтеза")
+st.write("""
+Данная модель объединяет два фундаментальных подхода к долголетию:
+1. **PhenoAge (Йельский Университет):** Оценивает риск смертности и темпы старения на клеточном уровне через 9 маркеров крови.
+2. **Метод Войтенко (НИИ Геронтологии):** Проверенная временем советская система оценки функциональных резервов сердечно-сосудистой системы и вестибулярного аппарата.
 
-    **Интегральный показатель** считается более устойчивым к краткосрочным колебаниям состояния организма.
-    """)
+**Интегральный показатель** считается более устойчивым к краткосрочным колебаниям состояния организма.
+""")
 
 # Закрытие основного контейнера
 st.markdown('</div>', unsafe_allow_html=True)
