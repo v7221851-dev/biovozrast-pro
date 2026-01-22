@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BeakerIcon } from '@heroicons/react/24/outline';
+import { BeakerIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ProgressBar } from './components/ProgressBar';
 import { Step1Profile } from './components/steps/Step1Profile';
 import { Step2BloodTest } from './components/steps/Step2BloodTest';
@@ -94,8 +94,37 @@ function App() {
     setResults(null);
   };
 
+  const handleClose = () => {
+    const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'https://zapisvmdsa.tilda.ws';
+    // Если мы в iframe, отправляем сообщение родительскому окну
+    if (window.parent !== window) {
+      try {
+        window.parent.postMessage({ type: 'close-iframe' }, '*');
+        // Также пытаемся закрыть через редирект родительского окна
+        if (window.top) {
+          window.top.location.href = tildaDomain;
+        }
+      } catch (e) {
+        // Если нет доступа к parent, просто редиректим текущее окно
+        window.location.href = tildaDomain;
+      }
+    } else {
+      // Если не в iframe, просто редиректим
+      window.location.href = tildaDomain;
+    }
+  };
+
   return (
-    <div className="quiz-container">
+    <div className="quiz-container relative">
+      {/* Кнопка закрытия в правом верхнем углу */}
+      <button
+        onClick={handleClose}
+        className="close-button"
+        aria-label="Закрыть опрос"
+        title="Закрыть опрос"
+      >
+        <XMarkIcon className="w-6 h-6" />
+      </button>
       {/* Заголовок */}
       <h1 className="text-center text-5xl font-bold mb-6 mt-8 flex items-center justify-center gap-3">
         <BeakerIcon className="w-12 h-12 text-primary" />

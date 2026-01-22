@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { TagIcon, ChatBubbleLeftRightIcon, ArrowPathIcon, ClipboardDocumentListIcon, SparklesIcon, CheckCircleIcon, ChartBarIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { TagIcon, ChatBubbleLeftRightIcon, ArrowPathIcon, ClipboardDocumentListIcon, SparklesIcon, CheckCircleIcon, ChartBarIcon, ExclamationTriangleIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 import { ResultsGauge } from '../ResultsGauge';
 import type { Results, TestData } from '../../types';
 import { getResultDescription } from '../../utils/resultDescription';
 import { sendFeedbackToGoogleSheets } from '../../utils/googleSheets';
+// generatePDFReport импортируется динамически для избежания проблем с загрузкой jsPDF
 
 interface Step4ResultsProps {
   testData: TestData;
@@ -114,9 +115,25 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
         </div>
       </div>
 
-      {/* Форма отзывов */}
+      {/* Основные действия: Скачать отчет и Оставить отзыв */}
       {!showFeedback ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4 flex-wrap">
+          <button
+            onClick={async () => {
+              try {
+                // Динамический импорт для избежания проблем с загрузкой
+                const { generatePDFReport } = await import('../../utils/generateReport');
+                generatePDFReport(testData, results);
+              } catch (error) {
+                console.error('Ошибка при скачивании отчета:', error);
+                alert('Произошла ошибка при генерации отчета. Попробуйте обновить страницу.');
+              }
+            }}
+            className="quiz-button-action flex items-center gap-2"
+          >
+            <ArrowDownTrayIcon className="w-5 h-5" />
+            Скачать отчет
+          </button>
           <button
             onClick={() => setShowFeedback(true)}
             className="quiz-button-action flex items-center gap-2"
@@ -185,8 +202,8 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
         </div>
       )}
 
-      {/* Кнопка перезапуска */}
-      <div className="flex justify-center pt-8 border-t border-gray-200">
+      {/* Вторичное действие: Пройти тест заново (отделено визуально) */}
+      <div className="flex justify-center pt-8 border-t border-gray-200 mt-8">
         <button
           onClick={onRestart}
           className="quiz-button-action flex items-center gap-2"

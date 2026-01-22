@@ -1,0 +1,75 @@
+<style>
+    .bioage-test-container {
+        width: 100%;
+        min-height: 900px;
+        border: none;
+        display: block;
+        margin: 0 auto;
+        background: transparent;
+    }
+
+    @media (max-width: 1024px) {
+        .bioage-test-container {
+            min-height: 1000px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .bioage-test-container {
+            min-height: 1200px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .bioage-test-container {
+            min-height: 1400px;
+        }
+    }
+
+    .bioage-test-container::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .bioage-test-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    .bioage-test-container::-webkit-scrollbar-thumb {
+        background: #3B46EE;
+        border-radius: 4px;
+    }
+</style>
+
+<iframe 
+    id="bioage-iframe"
+    src="https://biovozrast-pro.vercel.app" 
+    class="bioage-test-container"
+    allow="geolocation; microphone; camera" 
+    title="Тест на биологический возраст"
+    scrolling="auto"
+    frameborder="0"
+    loading="lazy"
+    allowfullscreen>
+    <p style="text-align: center; padding: 20px; color: #666;">
+        Ваш браузер не поддерживает iframe. 
+        <a href="https://biovozrast-pro.vercel.app" target="_blank" rel="noopener noreferrer" 
+           style="color: #3B46EE; text-decoration: underline;">
+           Открыть тест в новом окне
+        </a>
+    </p>
+</iframe>
+
+<script>
+    // Обработчик для закрытия iframe при клике на крестик
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'close-iframe') {
+            // Закрываем iframe или редиректим на главную страницу
+            const iframe = document.getElementById('bioage-iframe');
+            if (iframe) {
+                iframe.style.display = 'none';
+            }
+            // Альтернативно: редирект на главную страницу Tilda
+            // window.location.href = window.location.origin;
+        }
+    });
+</script>

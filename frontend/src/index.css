@@ -5,6 +5,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Уменьшение масштаба на 20% */
+    font-size: 80%;
   }
 
   body {
@@ -34,6 +36,7 @@
     /* Колонки 3-10 (8 колонок), выравнивание по центру */
     background-color: #ffffff;
     min-height: 100vh;
+    /* font-size: 80% на html автоматически уменьшит на 20% */
     padding: 3rem 2rem;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
   }
@@ -86,7 +89,7 @@
   .quiz-button-action {
     @apply bg-primary text-white border border-primary font-semibold transition-all duration-300 hover:bg-primary-dark hover:border-primary-dark hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/20;
     border-radius: 30px;
-    /* Стандартный размер кнопки Tilda: высота 56px, padding горизонтальный 32px */
+    /* font-size: 80% на html автоматически уменьшит на 20% */
     height: 56px;
     padding: 0 32px;
     font-size: 16px;
@@ -99,10 +102,18 @@
     width: auto;
   }
 
+  /* Оптимизация для разрешения 1680x900 */
+  @media (min-width: 1680px) and (max-width: 1920px) {
+    .quiz-button-action {
+      height: 64px;
+      padding: 0 40px;
+      font-size: 18px;
+    }
+  }
+
   .step-heading {
     @apply text-center font-bold mt-12 mb-10 tracking-tight leading-tight;
     font-size: 3rem;
-    /* Увеличен размер заголовков */
   }
 
   .step-heading::before {
@@ -114,7 +125,6 @@
   .step-description {
     @apply text-center text-gray-600 mb-10;
     font-size: 1.25rem;
-    /* Увеличен размер описания */
     line-height: 1.7;
   }
 
@@ -122,14 +132,12 @@
   .form-label {
     @apply block font-semibold mb-3;
     font-size: 1.125rem;
-    /* 18px - хорошо для лейблов */
   }
 
   /* Описания под полями - стандарт: минимум 16px */
   .form-description {
     @apply text-gray-500 mb-3;
     font-size: 1rem;
-    /* 16px - стандартный размер для описаний */
     line-height: 1.6;
   }
 
@@ -137,7 +145,6 @@
   .form-hint {
     @apply text-gray-500;
     font-size: 0.875rem;
-    /* 14px - минимальный читаемый размер */
     line-height: 1.5;
   }
 
@@ -145,12 +152,37 @@
   .form-input {
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
     font-size: 1.125rem;
-    /* 18px */
   }
 
   .form-select {
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
     font-size: 1.125rem;
-    /* 18px */
+  }
+
+  /* Кнопка закрытия в правом верхнем углу */
+  .close-button {
+    @apply absolute top-4 right-4 w-12 h-12 flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 rounded-full transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300/50;
+    z-index: 1000;
+    border: 2px solid transparent;
+  }
+
+  .close-button:hover {
+    @apply border-gray-300;
+    transform: scale(1.1);
+  }
+
+  .close-button:active {
+    transform: scale(0.95);
+  }
+
+  /* Адаптивность для кнопки закрытия */
+  @media (max-width: 768px) {
+    .close-button {
+      @apply top-2 right-2 w-10 h-10;
+    }
+
+    .close-button svg {
+      @apply w-5 h-5;
+    }
   }
 }

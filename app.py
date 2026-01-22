@@ -978,7 +978,7 @@ if ba_pheno and ba_voitenko:
         st.markdown("---")
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
-            if st.button("🔄 Пройти тест заново", use_container_width=True):
+            if st.button("🔄 Пройти еще раз", use_container_width=True):
                 st.session_state.test_step = 1
                 st.session_state.test_data = {}
                 st.rerun()

@@ -47,7 +47,7 @@ export const Step1Profile: React.FC<Step1ProfileProps> = ({ data, onNext }) => {
 
         <div>
           <label className="form-label">
-            Сколько вам лет?
+            Ваш возраст:
           </label>
           <input
             type="number"
