@@ -96,12 +96,20 @@ export const Step2BloodTest: React.FC<Step2BloodTestProps> = ({ data, onNext, on
             <input
               type="number"
               min="0"
-              max="50"
-              step="0.1"
+              max="200"
+              step="0.01"
               value={formData.crp}
-              onChange={(e) => updateValue('crp', parseFloat(e.target.value) || 0)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Разрешаем пустое значение или корректное число от 0 до 200
+                if (value === '' || (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 200)) {
+                  updateValue('crp', value === '' ? 0 : parseFloat(value) || 0);
+                }
+              }}
+              placeholder="0.00"
               className="form-input"
             />
+            <p className="form-hint mt-2">Диапазон: от 0 до 200,00 мг/л</p>
           </div>
         </div>
 
