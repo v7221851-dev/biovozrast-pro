@@ -151,12 +151,14 @@
   /* Увеличенные инпуты */
   .form-input {
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
-    font-size: 1.125rem;
+    font-size: 16px; /* Минимум 16px для предотвращения авто-зума на мобильных */
+    min-height: 48px; /* Минимальная высота для удобства на мобильных */
   }
 
   .form-select {
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
-    font-size: 1.125rem;
+    font-size: 16px; /* Минимум 16px для предотвращения авто-зума на мобильных */
+    min-height: 48px; /* Минимальная высота для удобства на мобильных */
   }
 
   /* Кнопка закрытия в правом верхнем углу */
