@@ -3,62 +3,60 @@ import type { TestData, Results } from '../types';
 import { getResultDescription } from './resultDescription';
 
 // Функция для загрузки шрифта с поддержкой кириллицы
-// Используем готовый шрифт из официального репозитория jsPDF
+// Используем готовый шрифт из public папки (локальный файл)
 async function loadCyrillicFont(doc: jsPDF): Promise<boolean> {
-  // Используем готовый шрифт DejaVu Sans из официального репозитория jsPDF
-  // Для jsPDF 4.0.0 используем правильный формат шрифта
-  const fontUrls = [
-    // Официальный CDN jsPDF
-    'https://cdn.jsdelivr.net/npm/jspdf@2/dist/fonts/DejaVuSans-normal.ttf',
-    'https://unpkg.com/jspdf@2/dist/fonts/DejaVuSans-normal.ttf',
-    // Альтернативные источники
-    'https://raw.githubusercontent.com/MrRio/jsPDF/master/fonts/DejaVuSans-normal.ttf',
-  ];
-  
-  for (const fontUrl of fontUrls) {
+  try {
+    // Пробуем загрузить из public папки
+    const fontUrl = '/DejaVuSans.ttf';
+    console.log(`Попытка загрузки шрифта из: ${fontUrl}`);
+    
+    const response = await fetch(fontUrl);
+    if (!response.ok) {
+      console.error(`❌ Шрифт не найден: ${response.status} ${response.statusText}`);
+      return false;
+    }
+    
+    const fontData = await response.arrayBuffer();
+    if (fontData.byteLength === 0) {
+      console.error('❌ Получен пустой файл шрифта');
+      return false;
+    }
+    
+    console.log(`✅ Шрифт загружен, размер: ${fontData.byteLength} байт`);
+    
+    // Конвертируем в base64
+    const fontBase64 = btoa(String.fromCharCode(...new Uint8Array(fontData)));
+    
+    // Имя файла должно совпадать с тем, что используется в addFont
+    const fontFileName = 'DejaVuSans.ttf';
+    
+    // Добавляем файл в виртуальную файловую систему
+    doc.addFileToVFS(fontFileName, fontBase64);
+    
+    // Для jsPDF 4.0.0 пробуем разные варианты добавления шрифта
     try {
-      console.log(`Попытка загрузки шрифта из: ${fontUrl}`);
-      const response = await fetch(fontUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/octet-stream',
-        },
-      });
-      
-      if (!response.ok) {
-        console.warn(`Ответ не OK для ${fontUrl}: ${response.status}`);
-        continue;
-      }
-      
-      const fontData = await response.arrayBuffer();
-      if (fontData.byteLength === 0) {
-        console.warn(`Пустой ответ от ${fontUrl}`);
-        continue;
-      }
-      
-      // Конвертируем в base64
-      const fontBase64 = btoa(String.fromCharCode(...new Uint8Array(fontData)));
-      
-      // Имя файла должно совпадать с тем, что используется в addFont
-      const fontFileName = 'DejaVuSans-normal.ttf';
-      
-      // Добавляем файл в виртуальную файловую систему
-      doc.addFileToVFS(fontFileName, fontBase64);
-      
-      // Добавляем шрифт с правильными параметрами
+      // Вариант 1: стандартный способ
       doc.addFont(fontFileName, 'DejaVu', 'normal');
       doc.addFont(fontFileName, 'DejaVu', 'bold');
-      
-      console.log('✅ Шрифт DejaVu успешно загружен и добавлен');
+      console.log('✅ Шрифт DejaVu успешно добавлен (стандартный метод)');
       return true;
-    } catch (error) {
-      console.warn(`❌ Ошибка при загрузке из ${fontUrl}:`, error);
-      continue;
+    } catch (error1) {
+      console.warn('Стандартный метод не сработал, пробуем альтернативный:', error1);
+      try {
+        // Вариант 2: альтернативное имя
+        doc.addFont(fontFileName, 'DejaVuSans', 'normal');
+        doc.addFont(fontFileName, 'DejaVuSans', 'bold');
+        console.log('✅ Шрифт DejaVu успешно добавлен (альтернативный метод)');
+        return true;
+      } catch (error2) {
+        console.error('❌ Оба метода не сработали:', error2);
+        return false;
+      }
     }
+  } catch (error) {
+    console.error('❌ Ошибка при загрузке шрифта:', error);
+    return false;
   }
-  
-  console.error('❌ Не удалось загрузить шрифт ни из одного источника');
-  return false;
 }
 
 // Вспомогательная функция для установки шрифта
