@@ -14,7 +14,7 @@ const initialTestData: TestData = {
   alb: 45.0,
   creat: 80.0,
   gluc: 5.0,
-  crp: 1.0,
+  crp: 0, // Будет заполнено пользователем
   lymph: 30.0,
   mcv: 90.0,
   rdw: 13.0,

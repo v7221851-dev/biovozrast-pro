@@ -11,6 +11,7 @@ interface Step2BloodTestProps {
 
 export const Step2BloodTest: React.FC<Step2BloodTestProps> = ({ data, onNext, onBack }) => {
   const [formData, setFormData] = useState<BloodTestData>(data);
+  const [crpInput, setCrpInput] = useState<string>(data.crp > 0 ? data.crp.toString() : '');
 
   const updateValue = (key: keyof BloodTestData, value: number) => {
     setFormData({ ...formData, [key]: value });
@@ -94,16 +95,36 @@ export const Step2BloodTest: React.FC<Step2BloodTestProps> = ({ data, onNext, on
             </label>
             <p className="form-description">Маркер воспаления. Норма: &lt; 3 мг/л</p>
             <input
-              type="number"
-              min="0"
-              max="200"
-              step="0.01"
-              value={formData.crp}
+              type="text"
+              inputMode="decimal"
+              value={crpInput}
               onChange={(e) => {
                 const value = e.target.value;
-                // Разрешаем пустое значение или корректное число от 0 до 200
-                if (value === '' || (!isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 200)) {
-                  updateValue('crp', value === '' ? 0 : parseFloat(value) || 0);
+                // Разрешаем пустое значение, точку, запятую и цифры
+                // Проверяем формат: может быть пустым, или число с точкой/запятой
+                if (value === '') {
+                  setCrpInput('');
+                  updateValue('crp', 0);
+                } else {
+                  // Заменяем запятую на точку для единообразия
+                  const normalizedValue = value.replace(',', '.');
+                  // Проверяем, что это валидное число от 0 до 200
+                  const numValue = parseFloat(normalizedValue);
+                  if (!isNaN(numValue) && numValue >= 0 && numValue <= 200) {
+                    // Проверяем формат: разрешаем только одну точку и максимум 2 знака после точки
+                    const parts = normalizedValue.split('.');
+                    if (parts.length <= 2 && (parts[1] === undefined || parts[1].length <= 2)) {
+                      setCrpInput(normalizedValue);
+                      updateValue('crp', numValue);
+                    } else if (parts.length === 1) {
+                      // Целое число
+                      setCrpInput(normalizedValue);
+                      updateValue('crp', numValue);
+                    }
+                  } else if (normalizedValue === '.' || normalizedValue === ',') {
+                    // Разрешаем ввод одной точки/запятой
+                    setCrpInput('.');
+                  }
                 }
               }}
               placeholder="0.00"
