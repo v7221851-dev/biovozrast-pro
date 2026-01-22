@@ -1,13 +1,32 @@
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import type { TestData, Results } from '../types';
 import { getResultDescription } from './resultDescription';
 
-// Инициализируем pdfmake с шрифтами
-(pdfMake as any).vfs = (pdfFonts as any).pdfMake.vfs;
+// Динамический импорт pdfmake для избежания проблем с SSR
+let pdfMake: any = null;
+let pdfFonts: any = null;
+
+async function initPdfMake() {
+  if (!pdfMake) {
+    try {
+      const pdfMakeModule = await import('pdfmake/build/pdfmake');
+      const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+      pdfMake = pdfMakeModule.default || pdfMakeModule;
+      pdfFonts = pdfFontsModule.default || pdfFontsModule;
+      
+      // Инициализируем pdfmake с шрифтами
+      if (pdfMake && pdfFonts) {
+        pdfMake.vfs = pdfFonts.pdfMake?.vfs || pdfFonts.vfs || {};
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке pdfmake:', error);
+      throw error;
+    }
+  }
+  return pdfMake;
+}
 
 // Функция для загрузки кастомного шрифта DejaVu Sans с поддержкой кириллицы
-async function loadDejaVuFont(): Promise<void> {
+async function loadDejaVuFont(pdfMakeInstance: any): Promise<void> {
   try {
     const fontUrl = '/DejaVuSans.ttf';
     const response = await fetch(fontUrl);
@@ -23,17 +42,18 @@ async function loadDejaVuFont(): Promise<void> {
     
     // Регистрируем шрифт в pdfmake
     // pdfmake ожидает base64 строку для каждого варианта шрифта
-    (pdfMake as any).fonts = {
-      ...(pdfMake as any).fonts,
-      DejaVuSans: {
-        normal: fontBase64,
-        bold: fontBase64, // Используем тот же шрифт для bold
-        italics: fontBase64,
-        bolditalics: fontBase64,
-      },
-    };
-    
-    console.log('✅ Шрифт DejaVu Sans успешно загружен и зарегистрирован');
+    if (pdfMakeInstance) {
+      pdfMakeInstance.fonts = {
+        ...pdfMakeInstance.fonts,
+        DejaVuSans: {
+          normal: fontBase64,
+          bold: fontBase64, // Используем тот же шрифт для bold
+          italics: fontBase64,
+          bolditalics: fontBase64,
+        },
+      };
+      console.log('✅ Шрифт DejaVu Sans успешно загружен и зарегистрирован');
+    }
   } catch (error) {
     console.warn('Ошибка при загрузке шрифта, используем стандартные шрифты:', error);
   }
@@ -41,11 +61,18 @@ async function loadDejaVuFont(): Promise<void> {
 
 export async function generatePDFReport(testData: TestData, results: Results): Promise<void> {
   try {
+    // Инициализируем pdfmake
+    const pdfMakeInstance = await initPdfMake();
+    
+    if (!pdfMakeInstance) {
+      throw new Error('Не удалось загрузить pdfmake');
+    }
+    
     // Загружаем кастомный шрифт
-    await loadDejaVuFont();
+    await loadDejaVuFont(pdfMakeInstance);
     
     // Определяем используемый шрифт
-    const fontFamily = (pdfMake as any).fonts?.DejaVuSans ? 'DejaVuSans' : 'Roboto';
+    const fontFamily = pdfMakeInstance.fonts?.DejaVuSans ? 'DejaVuSans' : 'Roboto';
     
     // Цвета
     const primaryColor = '#3B46EE';
@@ -259,9 +286,15 @@ export async function generatePDFReport(testData: TestData, results: Results): P
     };
     
     // Генерируем и скачиваем PDF
-    const pdfDoc = (pdfMake as any).createPdf(docDefinition);
+    const pdfDoc = pdfMakeInstance.createPdf(docDefinition);
     const fileName = `PhenoAge_Report_${new Date().toISOString().split('T')[0]}.pdf`;
-    pdfDoc.download(fileName);
+    
+    pdfDoc.download(fileName, () => {
+      console.log('✅ PDF успешно сгенерирован и скачан');
+    }, (error: any) => {
+      console.error('Ошибка при скачивании отчета:', error);
+      alert('Произошла ошибка при генерации отчета. Попробуйте обновить страницу.');
+    });
     
   } catch (error) {
     console.error('Ошибка при генерации PDF:', error);
