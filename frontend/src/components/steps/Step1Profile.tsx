@@ -10,9 +10,15 @@ interface Step1ProfileProps {
 
 export const Step1Profile: React.FC<Step1ProfileProps> = ({ data, onNext }) => {
   const [formData, setFormData] = useState<UserProfile>(data);
+  const [ageInput, setAgeInput] = useState<string>(data.age > 0 ? data.age.toString() : '');
 
   const handleNext = () => {
-    onNext(formData);
+    const age = parseInt(ageInput);
+    if (!ageInput || isNaN(age) || age < 1 || age > 120) {
+      alert('Пожалуйста, укажите корректный возраст от 1 до 120 лет');
+      return;
+    }
+    onNext({ ...formData, age });
   };
 
   return (
@@ -53,15 +59,15 @@ export const Step1Profile: React.FC<Step1ProfileProps> = ({ data, onNext }) => {
             type="number"
             min="1"
             max="120"
-            value={formData.age}
+            value={ageInput}
             onChange={(e) => {
-              const ageValue = parseInt(e.target.value);
-              if (!isNaN(ageValue) && ageValue >= 1 && ageValue <= 120) {
-                setFormData({ ...formData, age: ageValue });
-              } else if (e.target.value === '') {
-                setFormData({ ...formData, age: 35 });
+              const value = e.target.value;
+              // Разрешаем пустое значение или корректное число
+              if (value === '' || (!isNaN(Number(value)) && Number(value) >= 1 && Number(value) <= 120)) {
+                setAgeInput(value);
               }
             }}
+            placeholder="Введите ваш возраст"
             className="form-input"
           />
           <p className="form-hint mt-2">Укажите ваш паспортный возраст</p>

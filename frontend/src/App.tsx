@@ -10,7 +10,7 @@ import { calculatePhenoAge, calculateVoitenko, calculateIntegralAge } from './ut
 
 const initialTestData: TestData = {
   gender: 'Мужской',
-  age: 35,
+  age: 0, // Будет заполнено пользователем
   alb: 45.0,
   creat: 80.0,
   gluc: 5.0,
