@@ -3,54 +3,40 @@ import type { TestData, Results } from '../types';
 import { getResultDescription } from './resultDescription';
 
 // Функция для загрузки шрифта с поддержкой кириллицы
-// Для jsPDF 4.0.0 нужно использовать готовый шрифт в формате, который понимает библиотека
+// Для jsPDF 4.0.0 используем готовый шрифт из официального репозитория
 async function loadCyrillicFont(doc: jsPDF): Promise<boolean> {
-  try {
-    // Пробуем загрузить из public папки
-    const fontUrl = '/DejaVuSans.ttf';
-    const response = await fetch(fontUrl);
-    
-    if (!response.ok) {
-      console.warn('Шрифт не найден в public, используем стандартный');
-      return false;
-    }
-    
-    const fontData = await response.arrayBuffer();
-    const fontBase64 = btoa(
-      String.fromCharCode(...new Uint8Array(fontData))
-    );
-    
-    // Для jsPDF 4.0.0 используем правильный метод добавления шрифта
-    // Важно: имя файла должно совпадать с именем в addFont
-    const fontFileName = 'DejaVuSans.ttf';
-    
-    // Добавляем файл в виртуальную файловую систему
-    doc.addFileToVFS(fontFileName, fontBase64);
-    
-    // Добавляем шрифт с правильными параметрами
-    // Для jsPDF 4.0.0 нужно указать правильный формат
+  // Вариант 1: Используем готовый шрифт из CDN jsPDF (рекомендуется)
+  const cdnUrls = [
+    'https://cdn.jsdelivr.net/npm/jspdf@2/dist/fonts/DejaVuSans-normal.ttf',
+    'https://unpkg.com/jspdf@2/dist/fonts/DejaVuSans-normal.ttf',
+  ];
+  
+  for (const fontUrl of cdnUrls) {
     try {
+      const response = await fetch(fontUrl);
+      if (!response.ok) continue;
+      
+      const fontData = await response.arrayBuffer();
+      const fontBase64 = btoa(String.fromCharCode(...new Uint8Array(fontData)));
+      
+      const fontFileName = 'DejaVuSans-normal.ttf';
+      doc.addFileToVFS(fontFileName, fontBase64);
       doc.addFont(fontFileName, 'DejaVu', 'normal');
       doc.addFont(fontFileName, 'DejaVu', 'bold');
-      console.log('Шрифт успешно загружен');
+      
+      console.log('Шрифт DejaVu успешно загружен из CDN');
       return true;
-    } catch (fontError) {
-      console.error('Ошибка при добавлении шрифта:', fontError);
-      // Пробуем альтернативный метод для jsPDF 4.0.0
-      // Возможно, нужно использовать другой формат имени
-      try {
-        doc.addFont(fontFileName, 'DejaVuSans', 'normal');
-        doc.addFont(fontFileName, 'DejaVuSans', 'bold');
-        return true;
-      } catch (altError) {
-        console.error('Альтернативный метод также не сработал:', altError);
-        return false;
-      }
+    } catch (error) {
+      console.warn(`Не удалось загрузить из ${fontUrl}:`, error);
+      continue;
     }
-  } catch (error) {
-    console.error('Ошибка при загрузке шрифта:', error);
-    return false;
   }
+  
+  // Вариант 2: Если CDN недоступен, используем встроенный fallback
+  // Для jsPDF 4.0.0 TTF не поддерживается напрямую, поэтому используем стандартный шрифт
+  // и конвертируем кириллицу в латиницу для отображения (временное решение)
+  console.warn('CDN недоступен, используем стандартный шрифт (кириллица может отображаться некорректно)');
+  return false;
 }
 
 // Вспомогательная функция для установки шрифта
