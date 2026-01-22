@@ -3,13 +3,15 @@ import type { TestData, Results } from '../types';
 import { getResultDescription } from './resultDescription';
 
 // Функция для загрузки шрифта с поддержкой кириллицы
+// Для jsPDF 4.0.0 нужно использовать готовый шрифт в формате, который понимает библиотека
 async function loadCyrillicFont(doc: jsPDF): Promise<boolean> {
   try {
-    // Загружаем шрифт из public папки
+    // Пробуем загрузить из public папки
     const fontUrl = '/DejaVuSans.ttf';
     const response = await fetch(fontUrl);
+    
     if (!response.ok) {
-      console.warn('Шрифт не найден, используем стандартный');
+      console.warn('Шрифт не найден в public, используем стандартный');
       return false;
     }
     
@@ -18,14 +20,35 @@ async function loadCyrillicFont(doc: jsPDF): Promise<boolean> {
       String.fromCharCode(...new Uint8Array(fontData))
     );
     
-    // Добавляем шрифт в jsPDF 4.0.0
-    doc.addFileToVFS('DejaVuSans.ttf', fontBase64);
-    doc.addFont('DejaVuSans.ttf', 'DejaVu', 'normal');
-    doc.addFont('DejaVuSans.ttf', 'DejaVu', 'bold');
+    // Для jsPDF 4.0.0 используем правильный метод добавления шрифта
+    // Важно: имя файла должно совпадать с именем в addFont
+    const fontFileName = 'DejaVuSans.ttf';
     
-    return true;
+    // Добавляем файл в виртуальную файловую систему
+    doc.addFileToVFS(fontFileName, fontBase64);
+    
+    // Добавляем шрифт с правильными параметрами
+    // Для jsPDF 4.0.0 нужно указать правильный формат
+    try {
+      doc.addFont(fontFileName, 'DejaVu', 'normal');
+      doc.addFont(fontFileName, 'DejaVu', 'bold');
+      console.log('Шрифт успешно загружен');
+      return true;
+    } catch (fontError) {
+      console.error('Ошибка при добавлении шрифта:', fontError);
+      // Пробуем альтернативный метод для jsPDF 4.0.0
+      // Возможно, нужно использовать другой формат имени
+      try {
+        doc.addFont(fontFileName, 'DejaVuSans', 'normal');
+        doc.addFont(fontFileName, 'DejaVuSans', 'bold');
+        return true;
+      } catch (altError) {
+        console.error('Альтернативный метод также не сработал:', altError);
+        return false;
+      }
+    }
   } catch (error) {
-    console.warn('Ошибка при загрузке шрифта:', error);
+    console.error('Ошибка при загрузке шрифта:', error);
     return false;
   }
 }
@@ -51,7 +74,25 @@ export async function generatePDFReport(testData: TestData, results: Results): P
     
     // Загружаем шрифт с поддержкой кириллицы
     const fontLoaded = await loadCyrillicFont(doc);
-    const fontFamily = fontLoaded ? 'DejaVu' : 'helvetica';
+    // Пробуем разные варианты имени шрифта
+    let fontFamily = 'helvetica';
+    if (fontLoaded) {
+      // Пробуем разные варианты имени
+      try {
+        doc.setFont('DejaVu', 'normal');
+        fontFamily = 'DejaVu';
+        console.log('Используется шрифт: DejaVu');
+      } catch {
+        try {
+          doc.setFont('DejaVuSans', 'normal');
+          fontFamily = 'DejaVuSans';
+          console.log('Используется шрифт: DejaVuSans');
+        } catch {
+          console.warn('Не удалось использовать кастомный шрифт, используем helvetica');
+          fontFamily = 'helvetica';
+        }
+      }
+    }
     
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
