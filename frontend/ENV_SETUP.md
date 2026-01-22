@@ -6,7 +6,7 @@
 
 ```env
 # Домен Tilda для возврата при закрытии опроса
-VITE_TILDA_DOMAIN=https://zapisvmdsa.tilda.ws
+VITE_TILDA_DOMAIN=http://zapisvmdsa.tilda.ws/landing
 ```
 
 ## Важно
@@ -27,7 +27,7 @@ VITE_TILDA_DOMAIN=https://zapisvmdsa.tilda.ws
 Переменная используется в `App.tsx` для редиректа при закрытии опроса:
 
 ```typescript
-const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'https://zapisvmdsa.tilda.ws';
+const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'http://zapisvmdsa.tilda.ws/landing';
 ```
 
 Если переменная не задана, используется значение по умолчанию.

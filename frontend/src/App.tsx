@@ -95,7 +95,8 @@ function App() {
   };
 
   const handleClose = () => {
-    const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'https://zapisvmdsa.tilda.ws';
+    // Получаем домен из переменной окружения или используем значение по умолчанию
+    const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'http://zapisvmdsa.tilda.ws/landing';
     // Если мы в iframe, отправляем сообщение родительскому окну
     if (window.parent !== window) {
       try {
