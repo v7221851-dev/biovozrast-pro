@@ -696,7 +696,7 @@ if st.session_state.test_step == 1:
     with col2:
         u_age = st.number_input("**Сколько вам лет?**", min_value=18, max_value=100, 
                                 value=st.session_state.test_data.get('age', 35),
-                                help="Укажите ваш паспортный возраст")
+                                help="Укажите паспортный возраст")
     
     st.session_state.test_data['name'] = u_name
     st.session_state.test_data['gender'] = u_gender

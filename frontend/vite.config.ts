@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/', // Для работы в iframe на Tilda
+  base: '/test/', // Для работы на подпути /test (работает и по IP, и по домену)
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

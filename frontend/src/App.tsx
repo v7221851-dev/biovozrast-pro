@@ -96,7 +96,7 @@ function App() {
 
   const handleClose = () => {
     // Получаем домен из переменной окружения или используем значение по умолчанию
-    const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'http://zapisvmdsa.tilda.ws/landing';
+    const tildaDomain = import.meta.env.VITE_TILDA_DOMAIN || 'https://medicinetest.ru';
     // Если мы в iframe, отправляем сообщение родительскому окну
     if (window.parent !== window) {
       try {
@@ -132,7 +132,7 @@ function App() {
         Биологический возраст
       </h1>
       <p className="text-center text-gray-600 mb-10 text-xl max-w-2xl mx-auto leading-relaxed">
-        Тест для определения вашего биологического возраста. В алгоритме используются два научных метода: PhenoAge от Йельского Университета (США) и Методика Войтенко от НИИ Геронтологии (Россия).
+        В алгоритме используются два научных метода: PhenoAge от Йельского Университета (США) и Методика Войтенко от НИИ Геронтологии (Россия).
       </p>
 
       {/* Прогресс бар */}
