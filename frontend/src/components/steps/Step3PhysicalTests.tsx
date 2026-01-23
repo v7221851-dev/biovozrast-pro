@@ -102,16 +102,28 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
           <label className="form-label">
             Задержка дыхания (секунды)
           </label>
-          <input
-            type="range"
-            min="5"
-            max="120"
-            value={formData.bht}
-            onChange={(e) => updateValue('bht', parseInt(e.target.value))}
-            className="w-full h-3"
-          />
-          <div className="text-center text-primary font-semibold mt-3 text-xl">
-            {formData.bht} секунд
+          <div className="flex items-center gap-3 mt-2">
+            <input
+              type="range"
+              min="5"
+              max="120"
+              value={formData.bht}
+              onChange={(e) => {
+                const val = parseInt(e.target.value);
+                updateValue('bht', val);
+                setBhtInput(val.toString());
+              }}
+              className="flex-1 h-3"
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={bhtInput}
+              onChange={(e) => handleBhtChange(e.target.value)}
+              className="form-input w-24 text-center"
+              placeholder="5"
+            />
+            <span className="text-primary font-semibold text-sm whitespace-nowrap">сек</span>
           </div>
         </div>
       </div>
