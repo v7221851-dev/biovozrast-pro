@@ -11,9 +11,27 @@ interface Step3PhysicalTestsProps {
 
 export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, onNext, onBack }) => {
   const [formData, setFormData] = useState<PhysicalTestData>(data);
+  const [bhtInput, setBhtInput] = useState<string>(data.bht.toString());
+  const [sbInput, setSbInput] = useState<string>(data.sb.toString());
 
   const updateValue = (key: keyof PhysicalTestData, value: number) => {
     setFormData({ ...formData, [key]: value });
+  };
+
+  const handleBhtChange = (value: string) => {
+    setBhtInput(value);
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue >= 5 && numValue <= 120) {
+      updateValue('bht', numValue);
+    }
+  };
+
+  const handleSbChange = (value: string) => {
+    setSbInput(value);
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue >= 1 && numValue <= 120) {
+      updateValue('sb', numValue);
+    }
   };
 
   return (
@@ -113,16 +131,28 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
           <label className="form-label">
             Балансировка на одной ноге (секунды)
           </label>
-          <input
-            type="range"
-            min="1"
-            max="120"
-            value={formData.sb}
-            onChange={(e) => updateValue('sb', parseInt(e.target.value))}
-            className="w-full h-3"
-          />
-          <div className="text-center text-primary font-semibold mt-3 text-xl">
-            {formData.sb} секунд
+          <div className="flex items-center gap-3 mt-2">
+            <input
+              type="range"
+              min="1"
+              max="120"
+              value={formData.sb}
+              onChange={(e) => {
+                const val = parseInt(e.target.value);
+                updateValue('sb', val);
+                setSbInput(val.toString());
+              }}
+              className="flex-1 h-3"
+            />
+            <input
+              type="text"
+              inputMode="numeric"
+              value={sbInput}
+              onChange={(e) => handleSbChange(e.target.value)}
+              className="form-input w-24 text-center"
+              placeholder="1"
+            />
+            <span className="text-primary font-semibold text-sm whitespace-nowrap">сек</span>
           </div>
         </div>
       </div>

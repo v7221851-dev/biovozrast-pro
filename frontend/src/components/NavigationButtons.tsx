@@ -17,7 +17,7 @@ export const NavigationButtons: React.FC<NavigationButtonsProps> = ({
 }) => {
   if (showBack && onBack) {
     return (
-      <div className="flex justify-end items-center gap-4 mt-12 pt-8 border-t border-gray-200">
+      <div className="flex justify-between md:justify-end items-center gap-4 mt-12 pt-8 border-t border-gray-200">
         <button
           onClick={onBack}
           className="quiz-button-secondary"
@@ -28,7 +28,7 @@ export const NavigationButtons: React.FC<NavigationButtonsProps> = ({
         <button
           onClick={onNext}
           disabled={nextDisabled}
-          className="quiz-button-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="quiz-button-primary disabled:opacity-50 disabled:cursor-not-allowed flex-1 md:flex-initial"
         >
           {nextLabel}
         </button>
@@ -37,11 +37,11 @@ export const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   }
 
   return (
-    <div className="flex justify-end mt-8">
+    <div className="flex justify-center md:justify-end mt-8">
       <button
         onClick={onNext}
         disabled={nextDisabled}
-        className="quiz-button-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        className="quiz-button-primary disabled:opacity-50 disabled:cursor-not-allowed w-full md:w-auto"
       >
         {nextLabel}
       </button>

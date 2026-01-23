@@ -85,6 +85,27 @@
     /* Скругление 30px */
   }
 
+  /* Улучшение кнопок для мобильных */
+  @media (max-width: 768px) {
+    .quiz-button-secondary {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+    }
+
+    .quiz-button-primary {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Адаптация полей ввода рядом со слайдерами на мобильных */
+    .form-input.w-24 {
+      width: 80px;
+      min-width: 80px;
+    }
+  }
+
   /* Кнопка отзыва и перезапуска - стандартный размер по UI Tilda */
   .quiz-button-action {
     @apply bg-primary text-white border border-primary font-semibold transition-all duration-300 hover:bg-primary-dark hover:border-primary-dark hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-primary/20;
