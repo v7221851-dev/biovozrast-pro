@@ -52,7 +52,6 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
               onChange={(e) => updateValue('sbp', parseInt(e.target.value) || 120)}
               className="form-input"
             />
-            <p className="form-hint mt-2">Норма: 90-140 мм рт.ст.</p>
           </div>
           <div>
             <label className="form-label">
@@ -66,7 +65,6 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
               onChange={(e) => updateValue('dbp', parseInt(e.target.value) || 80)}
               className="form-input"
             />
-            <p className="form-hint mt-2">Норма: 60-90 мм рт.ст.</p>
           </div>
         </div>
       </div>
@@ -97,7 +95,6 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
           <div className="text-center text-primary font-semibold mt-3 text-xl">
             {formData.bht} секунд
           </div>
-          <p className="form-hint mt-2 text-center">Хороший результат: &gt; 40 секунд</p>
         </div>
       </div>
 
@@ -127,7 +124,6 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
           <div className="text-center text-primary font-semibold mt-3 text-xl">
             {formData.sb} секунд
           </div>
-          <p className="form-hint mt-2 text-center">Хороший результат: &gt; 20 секунд</p>
         </div>
       </div>
 

@@ -200,7 +200,7 @@ export const Step2BloodTest: React.FC<Step2BloodTestProps> = ({ data, onNext, on
             <p className="form-description">Фермент. Норма: 20-140 Ед/л</p>
             <input
               type="range"
-              min="30"
+              min="0"
               max="150"
               step="0.1"
               value={formData.alp}
