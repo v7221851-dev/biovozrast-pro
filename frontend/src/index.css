@@ -174,12 +174,20 @@
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
     font-size: 16px; /* Минимум 16px для предотвращения авто-зума на мобильных */
     min-height: 48px; /* Минимальная высота для удобства на мобильных */
+    height: 48px; /* Явная высота для выравнивания с select */
   }
 
   .form-select {
     @apply w-full px-5 py-4 border-2 border-gray-200 rounded-lg focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all outline-none;
     font-size: 16px; /* Минимум 16px для предотвращения авто-зума на мобильных */
     min-height: 48px; /* Минимальная высота для удобства на мобильных */
+    height: 48px; /* Явная высота для выравнивания с input */
+    appearance: none; /* Убираем браузерные стили по умолчанию */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem; /* Отступ для иконки стрелки */
   }
 
   /* Кнопка закрытия в правом верхнем углу */
