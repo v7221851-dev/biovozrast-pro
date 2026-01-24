@@ -13,6 +13,7 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
   const [formData, setFormData] = useState<PhysicalTestData>(data);
   const [bhtInput, setBhtInput] = useState<string>(data.bht.toString());
   const [sbInput, setSbInput] = useState<string>(data.sb.toString());
+  const [bwInput, setBwInput] = useState<string>(data.bw > 0 ? data.bw.toString() : '');
 
   const updateValue = (key: keyof PhysicalTestData, value: number) => {
     setFormData({ ...formData, [key]: value });
@@ -31,6 +32,16 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
     const numValue = parseInt(value);
     if (!isNaN(numValue) && numValue >= 1 && numValue <= 120) {
       updateValue('sb', numValue);
+    }
+  };
+
+  const handleBwChange = (value: string) => {
+    setBwInput(value);
+    const numValue = parseInt(value);
+    if (!isNaN(numValue) && numValue >= 10 && numValue <= 250) {
+      updateValue('bw', numValue);
+    } else if (value === '') {
+      updateValue('bw', 0);
     }
   };
 
@@ -181,11 +192,12 @@ export const Step3PhysicalTests: React.FC<Step3PhysicalTestsProps> = ({ data, on
           </label>
           <input
             type="number"
-            min="40"
-            max="160"
-            value={formData.bw}
-            onChange={(e) => updateValue('bw', parseInt(e.target.value) || 75)}
+            min="10"
+            max="250"
+            value={bwInput}
+            onChange={(e) => handleBwChange(e.target.value)}
             className="form-input"
+            placeholder="10-250"
           />
           <p className="form-hint mt-2">Укажите ваш текущий вес</p>
         </div>

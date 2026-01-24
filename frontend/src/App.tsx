@@ -24,7 +24,7 @@ const initialTestData: TestData = {
   dbp: 80,
   bht: 45,
   sb: 20,
-  bw: 75,
+  bw: 0,
 };
 
 function App() {
