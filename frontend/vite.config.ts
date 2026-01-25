@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/test/', // Для работы на подпути /test (работает и по IP, и по домену)
+  base: '/', // Для работы на поддомене app.medicinetest.ru (корневой путь)
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

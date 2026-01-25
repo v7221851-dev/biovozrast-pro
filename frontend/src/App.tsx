@@ -27,10 +27,70 @@ const initialTestData: TestData = {
   bw: 0,
 };
 
+const STORAGE_KEY = 'bioage_test_data';
+const STORAGE_STEP_KEY = 'bioage_current_step';
+const STORAGE_RESULTS_KEY = 'bioage_results';
+
 function App() {
-  const [currentStep, setCurrentStep] = useState<TestStep>(1);
-  const [testData, setTestData] = useState<TestData>(initialTestData);
-  const [results, setResults] = useState<Results | null>(null);
+  // Восстановление данных из localStorage при загрузке
+  const [testData, setTestData] = useState<TestData>(() => {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        // Проверяем, что все обязательные поля присутствуют
+        return { ...initialTestData, ...parsed };
+      } catch (e) {
+        console.error('Ошибка восстановления данных:', e);
+        return initialTestData;
+      }
+    }
+    return initialTestData;
+  });
+  
+  const [results, setResults] = useState<Results | null>(() => {
+    const savedResults = localStorage.getItem(STORAGE_RESULTS_KEY);
+    if (savedResults) {
+      try {
+        return JSON.parse(savedResults);
+      } catch (e) {
+        console.error('Ошибка восстановления результатов:', e);
+        return null;
+      }
+    }
+    return null;
+  });
+
+  // Восстанавливаем шаг
+  const [currentStep, setCurrentStep] = useState<TestStep>(() => {
+    const savedStep = localStorage.getItem(STORAGE_STEP_KEY);
+    const savedResults = localStorage.getItem(STORAGE_RESULTS_KEY);
+    // Если есть результаты, показываем шаг 4
+    if (savedResults) {
+      try {
+        JSON.parse(savedResults);
+        return 4;
+      } catch (e) {
+        // Если результаты повреждены, используем сохраненный шаг
+      }
+    }
+    return (savedStep ? parseInt(savedStep, 10) : 1) as TestStep;
+  });
+
+  // Сохранение данных в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(testData));
+  }, [testData]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_STEP_KEY, currentStep.toString());
+  }, [currentStep]);
+
+  useEffect(() => {
+    if (results) {
+      localStorage.setItem(STORAGE_RESULTS_KEY, JSON.stringify(results));
+    }
+  }, [results]);
 
   // Скролл к верху при смене шага
   useEffect(() => {
@@ -89,6 +149,11 @@ function App() {
   };
 
   const handleRestart = () => {
+    // Очищаем кеш при перезапуске
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_STEP_KEY);
+    localStorage.removeItem(STORAGE_RESULTS_KEY);
+    
     setCurrentStep(1);
     setTestData(initialTestData);
     setResults(null);
