@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { TagIcon, ChatBubbleLeftRightIcon, ArrowPathIcon, ClipboardDocumentListIcon, SparklesIcon, CheckCircleIcon, ChartBarIcon, ExclamationTriangleIcon, ArrowDownTrayIcon, ShareIcon, ClipboardIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { TagIcon, ChatBubbleLeftRightIcon, ClipboardDocumentListIcon, SparklesIcon, CheckCircleIcon, ChartBarIcon, ExclamationTriangleIcon, ArrowDownTrayIcon, ShareIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { ResultsGauge } from '../ResultsGauge';
 import type { Results, TestData } from '../../types';
 import { getResultDescription } from '../../utils/resultDescription';
 import { sendFeedbackToGoogleSheets } from '../../utils/googleSheets';
-import { shareToVK, shareToTelegram, shareToWhatsApp, shareToTikTok, copyToClipboard, generateShareImage } from '../../utils/shareResults';
+import { shareToVK, shareToTelegram, shareToWhatsApp, shareToTikTok, generateShareImage } from '../../utils/shareResults';
 import { updateMetaTagsForSharing } from '../../utils/updateMetaTags';
 import { analyzePhenoAgeDeviations, analyzeVoitenkoDeviations } from '../../utils/analyzeDeviations';
 import { uploadShareImageToServer } from '../../utils/uploadShareImage';
@@ -21,8 +21,6 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
   const [rating, setRating] = useState(0);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showShare, setShowShare] = useState(false);
-  const [copySuccess, setCopySuccess] = useState(false);
-  const [generatingImage, setGeneratingImage] = useState(false);
   const [shareImageUrl, setShareImageUrl] = useState<string | null>(null);
   const [showPhenoDeviations, setShowPhenoDeviations] = useState(false);
   const [showVoitenkoDeviations, setShowVoitenkoDeviations] = useState(false);
@@ -331,71 +329,13 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
             </button>
           </div>
 
-          <div className="space-y-3">
-            {/* Кнопка скачивания изображения */}
+          <div className="flex justify-center mt-4">
             <button
-              onClick={async () => {
-                setGeneratingImage(true);
-                try {
-                  const imageDataUrl = await generateShareImage(testData, results);
-                  // Создаем ссылку для скачивания
-                  const link = document.createElement('a');
-                  link.href = imageDataUrl;
-                  link.download = `bioage_${testData.age}_${results.integral.toFixed(1)}.png`;
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                  alert('Изображение скачано! Добавьте его к посту в социальных сетях вместе с текстом.');
-                } catch (error) {
-                  console.error('Ошибка генерации изображения:', error);
-                  alert('Не удалось создать изображение. Попробуйте позже.');
-                } finally {
-                  setGeneratingImage(false);
-                }
-              }}
-              disabled={generatingImage}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-primary bg-primary text-white hover:bg-primary/90 transition-colors disabled:opacity-50"
+              onClick={() => setShowShare(false)}
+              className="px-6 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              {generatingImage ? (
-                <>
-                  <ArrowPathIcon className="w-5 h-5 animate-spin" />
-                  Генерация...
-                </>
-              ) : (
-                <>
-                  <ArrowDownTrayIcon className="w-5 h-5" />
-                  Скачать изображение для поста
-                </>
-              )}
+              Закрыть
             </button>
-
-            <div className="flex gap-3">
-              <button
-                onClick={async () => {
-                  try {
-                    await copyToClipboard(testData, results);
-                    setCopySuccess(true);
-                    setTimeout(() => setCopySuccess(false), 2000);
-                  } catch (error) {
-                    console.error('Ошибка копирования:', error);
-                    alert('Не удалось скопировать текст');
-                  }
-                }}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-colors ${copySuccess
-                  ? 'bg-green-50 border-green-500 text-green-700'
-                  : 'bg-white border-gray-300 hover:bg-gray-50'
-                  }`}
-              >
-                <ClipboardIcon className="w-5 h-5" />
-                {copySuccess ? 'Скопировано!' : 'Копировать текст'}
-              </button>
-              <button
-                onClick={() => setShowShare(false)}
-                className="px-6 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                Закрыть
-              </button>
-            </div>
           </div>
         </div>
       )}
