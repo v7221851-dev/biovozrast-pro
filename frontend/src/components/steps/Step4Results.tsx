@@ -7,6 +7,7 @@ import { sendFeedbackToGoogleSheets } from '../../utils/googleSheets';
 import { shareToVK, shareToTelegram, shareToWhatsApp, shareToTikTok, copyToClipboard, generateShareImage } from '../../utils/shareResults';
 import { updateMetaTagsForSharing } from '../../utils/updateMetaTags';
 import { analyzePhenoAgeDeviations, analyzeVoitenkoDeviations } from '../../utils/analyzeDeviations';
+import { uploadShareImageToServer } from '../../utils/uploadShareImage';
 // generatePDFReport импортируется динамически для избежания проблем с загрузкой jsPDF
 
 interface Step4ResultsProps {
@@ -31,10 +32,19 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
   // Генерируем изображение для шаринга при монтировании компонента
   useEffect(() => {
     generateShareImage(testData, results)
-      .then((imageUrl) => {
-        setShareImageUrl(imageUrl);
-        // Обновляем мета-теги для автоматического подтягивания изображения
-        updateMetaTagsForSharing(testData, results, imageUrl);
+      .then(async (imageDataUrl) => {
+        // Пытаемся загрузить изображение на сервер для получения публичного URL
+        try {
+          const publicUrl = await uploadShareImageToServer(imageDataUrl, testData, results);
+          setShareImageUrl(publicUrl);
+          // Обновляем мета-теги с публичным URL
+          updateMetaTagsForSharing(testData, results, publicUrl);
+        } catch (error) {
+          // Если загрузка не удалась, используем base64 (fallback)
+          console.warn('Не удалось загрузить изображение на сервер, используем base64:', error);
+          setShareImageUrl(imageDataUrl);
+          updateMetaTagsForSharing(testData, results, imageDataUrl);
+        }
       })
       .catch((error) => {
         console.error('Ошибка генерации изображения для шаринга:', error);
@@ -120,7 +130,7 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                 {(results.phenoAge - testData.age).toFixed(1)} лет
               </span>
             </p>
-            <p className="text-base text-gray-500 mb-3">
+            <p className="text-base text-gray-700 mb-3 leading-relaxed">
               Этот метод анализирует 9 маркеров крови для оценки риска смертности и темпов старения на клеточном уровне.
             </p>
             
@@ -189,7 +199,7 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                 {(results.voitenko - testData.age).toFixed(1)} лет
               </span>
             </p>
-            <p className="text-base text-gray-500 mb-3">
+            <p className="text-base text-gray-700 mb-3 leading-relaxed">
               Этот метод оценивает функциональные резервы сердечно-сосудистой системы и вестибулярного аппарата.
             </p>
             
