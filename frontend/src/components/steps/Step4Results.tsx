@@ -142,7 +142,7 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                   <div className="border-t border-gray-200 pt-3 mt-3">
                     <button
                       onClick={() => setShowPhenoDeviations(!showPhenoDeviations)}
-                      className="w-full flex items-center justify-between text-sm text-gray-700 hover:text-primary transition-colors"
+                      className="w-full flex items-center justify-between text-base text-gray-700 hover:text-primary transition-colors"
                     >
                       <span className="font-medium">
                         Показатели вне нормы ({deviations.length})
@@ -165,12 +165,12 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                             }`}
                           >
                             <div className="flex items-start justify-between mb-1">
-                              <span className="font-semibold text-sm text-gray-800">{dev.name}</span>
-                              <span className="text-xs text-gray-600 ml-2">
+                              <span className="font-semibold text-base text-gray-800">{dev.name}</span>
+                              <span className="text-base text-gray-600 ml-2">
                                 {dev.value} (норма: {dev.normal})
                               </span>
                             </div>
-                            <p className="text-xs text-gray-700 mt-1">{dev.impact}</p>
+                            <p className="text-base text-gray-700 mt-1 leading-relaxed">{dev.impact}</p>
                           </div>
                         ))}
                       </div>
@@ -180,8 +180,8 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
               }
               return (
                 <div className="border-t border-gray-200 pt-3 mt-3">
-                  <p className="text-sm text-green-600 flex items-center gap-1">
-                    <CheckCircleIcon className="w-4 h-4" />
+                  <p className="text-base text-green-600 flex items-center gap-1">
+                    <CheckCircleIcon className="w-5 h-5" />
                     Все показатели в пределах нормы
                   </p>
                 </div>
@@ -211,7 +211,7 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                   <div className="border-t border-gray-200 pt-3 mt-3">
                     <button
                       onClick={() => setShowVoitenkoDeviations(!showVoitenkoDeviations)}
-                      className="w-full flex items-center justify-between text-sm text-gray-700 hover:text-primary transition-colors"
+                      className="w-full flex items-center justify-between text-base text-gray-700 hover:text-primary transition-colors"
                     >
                       <span className="font-medium">
                         Показатели вне нормы ({deviations.length})
@@ -234,12 +234,12 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
                             }`}
                           >
                             <div className="flex items-start justify-between mb-1">
-                              <span className="font-semibold text-sm text-gray-800">{dev.name}</span>
-                              <span className="text-xs text-gray-600 ml-2">
+                              <span className="font-semibold text-base text-gray-800">{dev.name}</span>
+                              <span className="text-base text-gray-600 ml-2">
                                 {dev.value} (норма: {dev.normal})
                               </span>
                             </div>
-                            <p className="text-xs text-gray-700 mt-1">{dev.impact}</p>
+                            <p className="text-base text-gray-700 mt-1 leading-relaxed">{dev.impact}</p>
                           </div>
                         ))}
                       </div>
@@ -249,8 +249,8 @@ export const Step4Results: React.FC<Step4ResultsProps> = ({ testData, results, o
               }
               return (
                 <div className="border-t border-gray-200 pt-3 mt-3">
-                  <p className="text-sm text-green-600 flex items-center gap-1">
-                    <CheckCircleIcon className="w-4 h-4" />
+                  <p className="text-base text-green-600 flex items-center gap-1">
+                    <CheckCircleIcon className="w-5 h-5" />
                     Все показатели в пределах нормы
                   </p>
                 </div>
