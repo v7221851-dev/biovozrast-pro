@@ -7,9 +7,9 @@ export function generateShareText(testData: TestData, results: Results): string 
   const diff = results.difference;
   const age = testData.age;
   const bioAge = results.integral.toFixed(1);
-  
-  const baseText = `Мой биологический возраст - а у тебя?\n\nПройди тест и сравни разницу между реальным возрастом и паспортным!\n\nМой результат: ${bioAge} лет (паспортный: ${age} лет)`;
-  
+
+  const baseText = `Мой биологический возраст ниже, а какой у тебя?\n\nПройди тест и сравни разницу между реальным возрастом и паспортным!\n\nМой результат: ${bioAge} лет (паспортный: ${age} лет)`;
+
   if (diff < 0) {
     return `${baseText}\n\nЯ моложе своего возраста на ${Math.abs(diff).toFixed(1)} лет! ✨`;
   } else if (diff === 0) {
@@ -25,8 +25,8 @@ export function generateShareText(testData: TestData, results: Results): string 
 export function shareToVK(testData: TestData, results: Results, _imageUrl?: string): void {
   const text = generateShareText(testData, results);
   // VK автоматически подтянет изображение из og:image мета-тега
-  const shareUrl = window.location.href.includes('localhost') 
-    ? 'https://app.medicinetest.ru' 
+  const shareUrl = window.location.href.includes('localhost')
+    ? 'https://app.medicinetest.ru'
     : window.location.href;
   const url = `https://vk.com/share.php?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent('Мой биологический возраст - а у тебя?')}&description=${encodeURIComponent(text)}`;
   window.open(url, '_blank', 'width=600,height=400');
@@ -38,8 +38,8 @@ export function shareToVK(testData: TestData, results: Results, _imageUrl?: stri
 export function shareToTelegram(testData: TestData, results: Results, _imageUrl?: string): void {
   const text = generateShareText(testData, results);
   // Telegram автоматически подтянет изображение из og:image мета-тега
-  const shareUrl = window.location.href.includes('localhost') 
-    ? 'https://app.medicinetest.ru' 
+  const shareUrl = window.location.href.includes('localhost')
+    ? 'https://app.medicinetest.ru'
     : window.location.href;
   const url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
   window.open(url, '_blank', 'width=600,height=400');
@@ -51,8 +51,8 @@ export function shareToTelegram(testData: TestData, results: Results, _imageUrl?
 export function shareToWhatsApp(testData: TestData, results: Results, _imageUrl?: string): void {
   const text = generateShareText(testData, results);
   // WhatsApp автоматически подтянет изображение из og:image мета-тега
-  const shareUrl = window.location.href.includes('localhost') 
-    ? 'https://app.medicinetest.ru' 
+  const shareUrl = window.location.href.includes('localhost')
+    ? 'https://app.medicinetest.ru'
     : window.location.href;
   const url = `https://wa.me/?text=${encodeURIComponent(text + '\n\n' + shareUrl)}`;
   window.open(url, '_blank');
@@ -111,7 +111,7 @@ export async function generateShareImage(testData: TestData, results: Results): 
     const canvas = document.createElement('canvas');
     canvas.width = 1200;
     canvas.height = 630; // Стандартный размер для Open Graph
-    
+
     const ctx = canvas.getContext('2d');
     if (!ctx) {
       reject(new Error('Не удалось создать контекст canvas'));
